@@ -1,28 +1,39 @@
 # robot-policy-evals
 
-Training and evaluating learned robot control policies in simulation. The question
-running through this repo: when a learned policy improves, does the improvement hold up
-under new conditions, and which failures appear when those conditions change?
+Is the gain real? A known-truth audit of how robot-policy checkpoints get picked and
+reported. A common routine evaluates every checkpoint on 50 episodes, keeps the best, and
+reports its score on those same episodes, which biases the reported number upward. This
+project measures how far, first on Reacher-v5 (a pilot that proves the evaluation pipeline
+against planted faults), then on LeRobot's Diffusion Policy on PushT against thousands of
+held-out rollouts per checkpoint.
 
-Status: started 2026-10-18, on step 2 of 7.
+Why it matters: in LeRobot 0.6.1 the training-time evaluation and the standalone
+`lerobot-eval` both default to seed 1000 and 50 episodes, with no option for a separate
+selection seed range, so a checkpoint picked from the training curve and then reported has
+been scored on the start states it was picked on. A measured inflation is the case for a
+small upstream change; a null result says the default is fine.
+
+Status: started 2026-10-18. Plan committed, nothing run yet beyond the environment checks.
+See [PLAN.md](PLAN.md) for the question, design, timeline and gates, [PREREG.md](PREREG.md)
+for the pilot's pre-registration (draft, not yet frozen), and [NOTEBOOK.md](NOTEBOOK.md) for
+the running lab notebook.
 
 ![random policy on Reacher-v5](media/random_policy.gif)
 
 *A random policy on Reacher-v5, top-down view at half speed. Pink is the arm's base,
 green the fingertip, red the target.*
 
-## Plan
+## Where this starts
 
 1. Run the simulation and understand observations, actions and rewards. (`explore_env.py`)
-2. Measure a random-policy baseline on held-out evaluation seeds. (`task1_random_baseline.py`)
-3. Train a small neural-network policy with a standard RL implementation (Stable-Baselines3).
-4. Walk through one update of the learning algorithm by hand.
-5. Evaluate distance-to-target and a success criterion fixed in advance, on held-out
-   evaluation seeds, across several independent training runs.
-6. Add observation noise and investigate which failures increase.
-7. Save configurations, results and plots, and write a short research write-up.
+2. Measure a random-policy baseline on the reporting seeds. (`task1_random_baseline.py`)
+3. Train PPO on three seeds, saving checkpoints; walk through one update by hand.
+4. Write the statistics module from the formulas and prove it on planted answers.
+5. Plant faults in the harness and prove the tests catch them.
+6. Audit checkpoint selection on Reacher against oracle truth, then move to PushT.
 
-It starts with state observations. Vision and physical hardware come later.
+Weeks and gates are in PLAN.md. It starts with state observations; a real arm comes only
+after the simulation study ships.
 
 ## The environment: Gymnasium Reacher-v5 (MuJoCo)
 

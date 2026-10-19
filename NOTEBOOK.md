@@ -29,12 +29,13 @@ policy rarely end up touching the target?
 
 A:
 
-## Task 1: random-policy baseline (`task1_random_baseline.py`)
+## Task 1: random-policy baseline (`task1_random_baseline.py`), PREREG A1
 
-Write these two before running:
+Write these before running:
 
-- Success criterion (`SUCCESS_RADIUS_M`) and why:
-- Prediction (mean final distance, and how many of 100 seeds succeed):
+- Success radius, copied from PREREG.md section 4 after the rule was written there (date):
+- Prediction (mean final distance, how many of 100 reporting seeds succeed, and the
+  width of the Wilson interval you expect):
 
 Then:
 
