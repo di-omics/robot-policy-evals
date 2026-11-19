@@ -65,4 +65,4 @@ prediction is written before the run that tests it. The entries are still open.
 The learning-rate warm-up that preceded this repo is in
 [ml-foundations](https://github.com/di-omics/ml-foundations).
 Robot models scored zero-shot on lab handling tasks in simulation are in
-[lab-handling-bench](https://github.com/di-omics/lab-handling-bench).
+[robotic-arm-lab-handling](https://github.com/di-omics/robotic-arm-lab-handling).
